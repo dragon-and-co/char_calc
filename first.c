@@ -11,7 +11,7 @@
 #include <linux/fs.h>
 
 
-MODULE_AUTHOR("Denis Solonevich and Maxim Zhogalskii");
+MODULE_AUTHOR("A&A");
 MODULE_DESCRIPTION("Calculator character device driver");
 MODULE_LICENSE("GPL");
 

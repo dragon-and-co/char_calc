@@ -17,7 +17,7 @@ MODULE_LICENSE("GPL");
 
 static int device_open(struct inode *inode, struct file *file);
 static int device_release(struct inode *inode, struct file *file);
-static ssize_t device_read(	struct file *filp, char *buffer, size_t length, loff_t * offset);
+static ssize_t device_read(struct file *filp, char *buffer, size_t length, loff_t * offset);
 static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t * off);
 
 /* Char devices files names. */
@@ -65,7 +65,7 @@ static struct cdev* c_dev;
 /* Global var for the device class */
 static struct class** classes;
 
-
+/*module opening function*/
 static int device_open(struct inode *inode, struct file *file)
 {
         if (device_opened)
@@ -73,7 +73,6 @@ static int device_open(struct inode *inode, struct file *file)
 
         device_opened++;
         try_module_get(THIS_MODULE);
-
         return 0;
 }
 
@@ -81,9 +80,7 @@ static int device_open(struct inode *inode, struct file *file)
 static int device_release(struct inode *inode, struct file *file)
 {
         device_opened--;
-
         module_put(THIS_MODULE);
-
         return 0;
 }
 
@@ -96,7 +93,8 @@ static ssize_t device_read( struct file *filp, char *buffer, size_t length, loff
         int written = 0;
         int i = 0;
 
-        if (fin) {
+        if (fin)
+        {
                 fin = 0;
                 return 0;
         }
@@ -138,13 +136,15 @@ static ssize_t device_read( struct file *filp, char *buffer, size_t length, loff
                                                 break;
                                 }
                         }
-                        if (!written) {
+                        if (!written) 
+                        {
                                 sprintf(message, "\n%ld %c %ld = %ld\n", a, op, b, result);
                         }
                 }
         }
 
-        for(i = 0; i < length && message[i]; i++) {
+        for(i = 0; i < length && message[i]; i++) 
+        {
                 put_user(message[i], buffer + i);
         }
 

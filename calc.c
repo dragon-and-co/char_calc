@@ -12,7 +12,7 @@
 
 
 MODULE_AUTHOR("A&A");
-MODULE_DESCRIPTION("Calculator character device driver");
+MODULE_DESCRIPTION("Calc character device driver");
 MODULE_LICENSE("GPL");
 
 static int device_open(struct inode *inode, struct file *file);
@@ -20,16 +20,16 @@ static int device_release(struct inode *inode, struct file *file);
 static ssize_t device_read(struct file *filp, char *buffer, size_t length, loff_t * offset);
 static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t * off);
 
-/* Char devices files names. */
+/* Char devices files names */
 #define CALC_FIRST "calc_first"
 #define CALC_SECOND "calc_second"
 #define CALC_OPERAND "calc_operand"
 #define CALC_RESULT "calc_result"
 
-/* Char devices maximum file size. */
+/* Char devices maximum file size */
 #define FILE_MAX_SIZE 16
 
-/* Char devices files names. */
+/* Char devices files names */
 static char names[][16] = {
         CALC_FIRST,
         CALC_SECOND,
@@ -37,13 +37,13 @@ static char names[][16] = {
         CALC_RESULT
 };
 
-/* Device opened counter. */
+/* Device opened counter */
 static int device_opened = 0;
 
-/* Char devices files buffers. */
+/* Char devices files buffers */
 static char** devices_buffer;
 
-/* User message. */
+/* User message */
 static char message[32];
 
 
@@ -76,7 +76,7 @@ static int device_open(struct inode *inode, struct file *file)
         return 0;
 }
 
-/*module release function*/
+/*module release func*/
 static int device_release(struct inode *inode, struct file *file)
 {
         device_opened--;
@@ -84,7 +84,7 @@ static int device_release(struct inode *inode, struct file *file)
         return 0;
 }
 
-/*module read function*/
+/*module read func*/
 static ssize_t device_read( struct file *filp, char *buffer, size_t length, loff_t * offset)
 {
         static int fin = 0;
@@ -120,7 +120,7 @@ static ssize_t device_read( struct file *filp, char *buffer, size_t length, loff
                                 switch (op) {
                                         case '+': result = a + b; break;
                                         case '-': result = a - b; break;
-                                        case 'x': result = a * b; break;
+                                        case '*': result = a * b; break;
                                         case '/':
                                                 if (b == 0) {
                                                         sprintf(message, "\n%s\n",
@@ -153,7 +153,7 @@ static ssize_t device_read( struct file *filp, char *buffer, size_t length, loff
         return i;
 }
 
-/*module write function*/
+/*module write func*/
 static ssize_t device_write(struct file *filp, const char *buff, size_t len, loff_t * off)
 {
         static int fin = 0;
@@ -197,12 +197,12 @@ static ssize_t device_write(struct file *filp, const char *buff, size_t len, lof
         return buf_size;
 }
 
-/* Module init function */
+/* Module init func */
 static int __init calc_init(void)
 {
         int i = 0;
 
-        printk(KERN_INFO "Calc driver was loaded.\n");
+        printk(KERN_INFO "Calc driver was loaded\n");
 
         classes = (struct class**) kmalloc(sizeof(struct class*) * 4, GFP_KERNEL);
         c_dev = (struct cdev*) kmalloc(sizeof(struct cdev) * 4, GFP_KERNEL);
@@ -239,11 +239,11 @@ static int __init calc_init(void)
                 }
         }
 
-        printk(KERN_INFO "Calc driver devices were created.\n");
+        printk(KERN_INFO "Calc driver devices're created\n");
         return 0;
 }
 
-/* Module exit function */
+/* Module exit func */
 static void __exit calc_exit(void)
 {
         int i;
@@ -258,8 +258,8 @@ static void __exit calc_exit(void)
 
         kfree(devices_buffer);
 
-        printk(KERN_INFO "Calc driver devices were removed.\n");
-        printk(KERN_INFO "Calc driver was unloaded.\n");
+        printk(KERN_INFO "Calc driver devices're removed\n");
+        printk(KERN_INFO "Calc driver was unloaded\n");
 }
 
 module_init(calc_init); /* Register module entry point */
